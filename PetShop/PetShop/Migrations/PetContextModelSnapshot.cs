@@ -49,6 +49,9 @@ namespace PetShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CageId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -58,7 +61,25 @@ namespace PetShop.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CageId");
+
                     b.ToTable("petDetails");
+                });
+
+            modelBuilder.Entity("PetShop.PetDetails", b =>
+                {
+                    b.HasOne("PetShop.Cage", "Cage")
+                        .WithMany("pets")
+                        .HasForeignKey("CageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cage");
+                });
+
+            modelBuilder.Entity("PetShop.Cage", b =>
+                {
+                    b.Navigation("pets");
                 });
 #pragma warning restore 612, 618
         }
