@@ -120,6 +120,33 @@ namespace PetShop.Migrations
                     b.ToTable("petDetails");
                 });
 
+            modelBuilder.Entity("PetShop.SellingRecord", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BuyerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PetType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SellingRecords");
+                });
+
             modelBuilder.Entity("PetShop.FeedSchedule", b =>
                 {
                     b.HasOne("PetShop.Cage", "Cage")
