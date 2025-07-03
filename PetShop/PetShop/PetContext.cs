@@ -11,6 +11,7 @@ namespace PetShop
     public class PetContext : DbContext
     {
         DbSet<PetDetails> petDetails { get; set; }
+        DbSet<Cage> cages { get; set; }
         public string ConnectionString { get; }
         public PetContext ()
         {
