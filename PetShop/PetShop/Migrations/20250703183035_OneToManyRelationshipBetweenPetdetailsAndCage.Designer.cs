@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetShop;
 
@@ -10,9 +11,11 @@ using PetShop;
 namespace PetShop.Migrations
 {
     [DbContext(typeof(PetContext))]
-    partial class PetContextModelSnapshot : ModelSnapshot
+    [Migration("20250703183035_OneToManyRelationshipBetweenPetdetailsAndCage")]
+    partial class OneToManyRelationshipBetweenPetdetailsAndCage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,32 +44,6 @@ namespace PetShop.Migrations
                     b.ToTable("cages");
                 });
 
-            modelBuilder.Entity("PetShop.FeedSchedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CageId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Food")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Time")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CageId");
-
-                    b.ToTable("FeedSchedules");
-                });
-
             modelBuilder.Entity("PetShop.PetDetails", b =>
                 {
                     b.Property<int>("Id")
@@ -90,17 +67,6 @@ namespace PetShop.Migrations
                     b.HasIndex("CageId");
 
                     b.ToTable("petDetails");
-                });
-
-            modelBuilder.Entity("PetShop.FeedSchedule", b =>
-                {
-                    b.HasOne("PetShop.Cage", "Cage")
-                        .WithMany()
-                        .HasForeignKey("CageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cage");
                 });
 
             modelBuilder.Entity("PetShop.PetDetails", b =>
