@@ -10,6 +10,7 @@ namespace PetShop
 {
     public class PetContext : DbContext
     {
+        DbSet<PetDetails> petDetails { get; set; }
         public string ConnectionString { get; }
         public PetContext ()
         {

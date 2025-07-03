@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "D:\\C# Project\\Pet-Shop\\PetShop\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\Migrations\\20250703172626_AddPetDetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PetShop\\Migrations\\20250703172626_AddPetDetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0B6A096B-2877-4F74-AE20-77DDDFF2923E}|PetShop\\PetShop.csproj|d:\\c# project\\pet-shop\\petshop\\petshop\\petcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0B6A096B-2877-4F74-AE20-77DDDFF2923E}|PetShop\\PetShop.csproj|solutionrelative:petshop\\petcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B6A096B-2877-4F74-AE20-77DDDFF2923E}|PetShop\\PetShop.csproj|d:\\c# project\\pet-shop\\petshop\\petshop\\petdetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B6A096B-2877-4F74-AE20-77DDDFF2923E}|PetShop\\PetShop.csproj|solutionrelative:petshop\\petdetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0B6A096B-2877-4F74-AE20-77DDDFF2923E}|PetShop\\PetShop.csproj|d:\\c# project\\pet-shop\\petshop\\petshop\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,19 +31,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "20250703172626_AddPetDetails.cs",
+              "DocumentMoniker": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\Migrations\\20250703172626_AddPetDetails.cs",
+              "RelativeDocumentMoniker": "PetShop\\Migrations\\20250703172626_AddPetDetails.cs",
+              "ToolTip": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\Migrations\\20250703172626_AddPetDetails.cs",
+              "RelativeToolTip": "PetShop\\Migrations\\20250703172626_AddPetDetails.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T17:26:27.155Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PetDetails.cs",
+              "DocumentMoniker": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\PetDetails.cs",
+              "RelativeDocumentMoniker": "PetShop\\PetDetails.cs",
+              "ToolTip": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\PetDetails.cs",
+              "RelativeToolTip": "PetShop\\PetDetails.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T17:23:06.619Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "PetContext.cs",
               "DocumentMoniker": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\PetContext.cs",
               "RelativeDocumentMoniker": "PetShop\\PetContext.cs",
               "ToolTip": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\PetContext.cs",
               "RelativeToolTip": "PetShop\\PetContext.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABQAAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAwAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-29T18:21:03.574Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\Program.cs",
               "RelativeDocumentMoniker": "PetShop\\Program.cs",

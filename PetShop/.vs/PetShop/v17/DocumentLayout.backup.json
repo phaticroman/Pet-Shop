@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{0B6A096B-2877-4F74-AE20-77DDDFF2923E}|PetShop\\PetShop.csproj|solutionrelative:petshop\\petcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{0B6A096B-2877-4F74-AE20-77DDDFF2923E}|PetShop\\PetShop.csproj|d:\\c# project\\pet-shop\\petshop\\petshop\\petdetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B6A096B-2877-4F74-AE20-77DDDFF2923E}|PetShop\\PetShop.csproj|solutionrelative:petshop\\petdetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0B6A096B-2877-4F74-AE20-77DDDFF2923E}|PetShop\\PetShop.csproj|d:\\c# project\\pet-shop\\petshop\\petshop\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0B6A096B-2877-4F74-AE20-77DDDFF2923E}|PetShop\\PetShop.csproj|solutionrelative:petshop\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -18,24 +22,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PetDetails.cs",
+              "DocumentMoniker": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\PetDetails.cs",
+              "RelativeDocumentMoniker": "PetShop\\PetDetails.cs",
+              "ToolTip": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\PetDetails.cs*",
+              "RelativeToolTip": "PetShop\\PetDetails.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T17:23:06.619Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "PetContext.cs",
               "DocumentMoniker": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\PetContext.cs",
               "RelativeDocumentMoniker": "PetShop\\PetContext.cs",
-              "ToolTip": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\PetContext.cs",
-              "RelativeToolTip": "PetShop\\PetContext.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABQAAAA6AAAAAAAAAA==",
+              "ToolTip": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\PetContext.cs*",
+              "RelativeToolTip": "PetShop\\PetContext.cs*",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAwAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-29T18:21:03.574Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\C# Project\\Pet-Shop\\PetShop\\PetShop\\Program.cs",
               "RelativeDocumentMoniker": "PetShop\\Program.cs",
