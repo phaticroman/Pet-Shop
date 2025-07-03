@@ -13,6 +13,7 @@ namespace PetShop
         DbSet<PetDetails> petDetails { get; set; }
         DbSet<Cage> cages { get; set; }
         DbSet<FeedSchedule> FeedSchedules { get; set; }
+        DbSet<BuyingRecord> BuyingRecords { get; set; }
         public string ConnectionString { get; }
         public PetContext ()
         {
