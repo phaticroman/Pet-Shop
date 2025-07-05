@@ -10,11 +10,11 @@ namespace PetShop
 {
     public class PetContext : DbContext
     {
-        DbSet<PetDetails> petDetails { get; set; }
-        DbSet<Cage> cages { get; set; }
-        DbSet<FeedSchedule> FeedSchedules { get; set; }
-        DbSet<BuyingRecord> BuyingRecords { get; set; }
-        DbSet<SellingRecord> SellingRecords { get; set; }
+        public DbSet<PetDetails> petDetails { get; set; }
+        public DbSet<Cage> cages { get; set; }
+        public DbSet<FeedSchedule> FeedSchedules { get; set; }
+        public DbSet<BuyingRecord> BuyingRecords { get; set; }
+        public DbSet<SellingRecord> SellingRecords { get; set; }
         public int Id { get; set; }
         public string ConnectionString { get; }
         public PetContext ()
