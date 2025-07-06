@@ -16,6 +16,7 @@ namespace PetShop
         public int Quantity { get; set; }
         public int CageId { get; set; }
         public Cage Cage { get; set; }
+        public bool IsSold { get; set; }
 
     }
 }

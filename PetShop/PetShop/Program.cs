@@ -13,8 +13,8 @@ using (var context = new PetContext())
         Console.WriteLine("2.Add A Pet");
         Console.WriteLine("3.See Sales Report");
         Console.WriteLine("4.Feed Pet");
-        Console.WriteLine("5.Buy Pet");
-        Console.WriteLine("6.Buy Pet");
+        Console.WriteLine("5.See Inventory");
+        Console.WriteLine("6.Sell Pet");
         Console.WriteLine("7.Add New Cage");
         int input = int.Parse(Console.ReadLine());
 
@@ -32,8 +32,14 @@ using (var context = new PetContext())
                 case 4:
                     feeding(context);
                     break;
+            case 5:
+                storage(context);
+                break;
+            case 6:
+                buyingPet(context);
+                break;
 
-            }
+        }
 
     }
 }
@@ -42,7 +48,7 @@ void addPet(PetContext context)
     Console.Write("Enter Pet Name:");
     string name = Console.ReadLine();
 
-    Console.Write("Pet Type");
+    Console.Write("Pet Type(Cat,Dog,Fish,Bird) : ");
     string type = Console.ReadLine();
 
     Console.Write("Price : ");
@@ -172,4 +178,79 @@ void feeding(PetContext context)
     context.FeedSchedules.Add(feed);
     context.SaveChanges();
     Console.WriteLine("Feeding Successfull");
+}
+
+void buyingPet(PetContext context)
+{
+    Console.Write("Pet Type(Cat,Dog,Fish or Bird) : ");
+    string pettype = Console.ReadLine();
+
+    Console.Write("Enter Name : ");
+    string name = Console.ReadLine();
+
+    Console.Write("Enter Quantity : ");
+    int quantity = int.Parse(Console.ReadLine());
+
+    Console.Write("Enter Price : ");
+    decimal price = decimal.Parse(Console.ReadLine());
+
+    var buy = new BuyingRecord
+    {
+        PetType = pettype,
+        Name = name,
+        Quantity = quantity,
+        Price = price,
+    };
+    context.BuyingRecords.Add(buy);
+    context.SaveChanges();
+    Console.WriteLine("Added To storage");
+
+}
+void storage (PetContext context)
+{
+    var cart = context.BuyingRecords.Where(b => !b.IsAddedToStore).ToList();
+    var cagelist = context.cages.ToList();
+    if (!cart.Any())
+    {
+        Console.WriteLine("No Pet in Storage");
+    }
+    else
+    {
+        foreach (var c in cart)
+        {
+            Console.WriteLine($"ID: {c.Id}, Name: {c.Name}, price: {c.Price},Quantity: {c.Quantity}");
+        }
+        Console.WriteLine("Enter ID To Add in Store : ");
+        int pid = int.Parse(Console.ReadLine());
+
+        Console.Write("Price : ");
+        decimal price = decimal.Parse(Console.ReadLine());
+
+        foreach (var cage in cagelist)
+        {
+            Console.WriteLine($"ID: {cage.Id}, Name: {cage.Name}");
+        }
+        Console.WriteLine("Enter Cage Id To Caged The Pet : ");
+        int cid = int.Parse(Console.ReadLine());
+
+        var selectedRecord = context.BuyingRecords.FirstOrDefault(b => b.Id == pid);
+        if (selectedRecord == null)
+        {
+            Console.WriteLine("Invalid ID.");
+            return;
+        }
+        var pet = new PetDetails
+        {
+            Name = selectedRecord.Name,
+            Quantity = selectedRecord.Quantity,
+            Type = selectedRecord.PetType,
+            Price = price,
+            CageId = cid
+        };
+        context.petDetails.Add(pet);
+        selectedRecord.IsAddedToStore = true;
+        context.SaveChanges();
+        Console.WriteLine("Pet Add To Store");
+
+    }
 }

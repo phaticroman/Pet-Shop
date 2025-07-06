@@ -14,6 +14,7 @@ namespace PetShop
         public int Quantity { get; set; }
         public DateTime Date { get; set; }
         public string PetType { get; set; }
+        public bool IsAddedToStore { get; set; }
 
     }
 }
