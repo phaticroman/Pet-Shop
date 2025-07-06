@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design;
 using System.Diagnostics;
+using Azure;
 
 using (var context = new PetContext())
 {
@@ -28,19 +29,30 @@ using (var context = new PetContext())
                 case 7:
                     createCage(context);
                     break;
+                case 4:
+                    feeding(context);
+                    break;
+
             }
 
     }
 }
 void addPet(PetContext context)
 {
-    Console.WriteLine("Enter Pet Name:");
+    Console.Write("Enter Pet Name:");
     string name = Console.ReadLine();
-    Console.WriteLine("Pet Type");
+
+    Console.Write("Pet Type");
     string type = Console.ReadLine();
-    Console.WriteLine("Quantity : ");
+
+    Console.Write("Price : ");
+    decimal price = decimal.Parse(Console.ReadLine());
+
+    Console.Write("Quantity : ");
     int quantity = int.Parse(Console.ReadLine());
+
     var cagelist = context.cages.ToList();
+
     foreach (var c in cagelist)
     {
         Console.WriteLine($"{c.Id}:{c.Name}");
@@ -53,6 +65,7 @@ void addPet(PetContext context)
         Type = type,
         Quantity = quantity,
         CageId = cid,
+        Price = price,
     };
     context.petDetails.Add(pet);
     context.SaveChanges();
@@ -99,6 +112,7 @@ void petList(PetContext context)
     }
 
     Console.Write("Enter ID To Buy : ");
+
 }
 
 
@@ -135,4 +149,27 @@ void createCage(PetContext context)
     context.cages.Add(cage);
     context.SaveChanges();
     Console.WriteLine("Cage Added SuccessFull");
+}
+
+void feeding(PetContext context)
+{
+    var cage = context.cages.ToList();
+    foreach(var c in cage)
+    {
+        Console.WriteLine($"{c.Id}:{c.Name}");
+    }
+
+    Console.Write("Enter Cage Id To Feed : ");
+    int cid = int.Parse(Console.ReadLine());
+    Console.Write("Feed Name : ");
+    string name = Console.ReadLine();
+    var feed = new FeedSchedule
+    {
+        Food = name,
+        CageId = cid,
+        Time = DateTime.Now
+    };
+    context.FeedSchedules.Add(feed);
+    context.SaveChanges();
+    Console.WriteLine("Feeding Successfull");
 }
