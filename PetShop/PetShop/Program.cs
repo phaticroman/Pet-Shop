@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using Azure;
+using System.Security.Cryptography;
 
 using (var context = new PetContext())
 {
@@ -67,7 +68,6 @@ void addPet(PetContext context)
     int cid = int.Parse(Console.ReadLine());
     var pet = new PetDetails
     {
-        Name = name,
         Type = type,
         Quantity = quantity,
         CageId = cid,
@@ -81,7 +81,7 @@ void addPet(PetContext context)
 
 void petList(PetContext context)
 {
-    var petlist = context.petDetails.ToList();
+    var petlist = context.petDetails.Where(p=> !p.IsSold).ToList();
     IEnumerable<PetDetails> pet = Enumerable.Empty<PetDetails>();
 
     Console.WriteLine("                          Roman's Pet Shop                           ");
@@ -112,12 +112,31 @@ void petList(PetContext context)
     {
         Console.WriteLine("Invalid Input");
     }
-    foreach (var p in pet)
+    if (pet.Count()==0)
     {
-        Console.WriteLine($"ID: {p.Id}, Name: {p.Name}");
+        Console.WriteLine("No Pet Remains");
     }
-
-    Console.Write("Enter ID To Buy : ");
+    else
+    {
+        foreach (var p in pet)
+        {
+            Console.WriteLine($"ID: {p.Id}, Name: {p.name} , price : {p.Price}");
+        }
+        Console.Write("Enter ID To Action : ");
+        int pid = int.Parse(Console.ReadLine());
+        Console.WriteLine("Do You Want To Buy it? : 1.Yes     2.No");
+        int action = int.Parse(Console.ReadLine());
+        if (action == 1)
+        {
+            Console.Write("Enter Your Name : ");
+            string buyername = Console.ReadLine();
+            sellreport(context, pid, buyername);
+        }
+        else
+        {
+            return;
+        }
+    }
 
 }
 
@@ -126,32 +145,24 @@ void cageList(PetContext context)
 {
     var cagelist = context.cages.ToList();
 
+
     foreach (var c in cagelist)
     {
         Console.WriteLine($"{c.Id}:{c.Name} -> {c.Capacity}");
     }
-
 }
 
 void createCage(PetContext context)
 {
-    bool yn = false;
     Console.Write("Enter Cage Name : ");
     string name = Console.ReadLine();
     Console.Write("Enter Cage Capacity : ");
     int count = int.Parse(Console.ReadLine());
-    Console.Write("Is it a Aquarium : Yes or No ");
-    string comment = Console.ReadLine();
-    if (comment=="Yes")
-    {
-        yn = true;
-    }
     var cage = new Cage
     {
         Name = name,
         Capacity = count,
-        IsAquarium = yn,
-
+        
     };
     context.cages.Add(cage);
     context.SaveChanges();
@@ -183,11 +194,14 @@ void feeding(PetContext context)
 
 void buyingPet(PetContext context)
 {
+    Console.Write("Enter Your Name : ");
+    string cname = Console.ReadLine();
+
     Console.Write("Pet Type(Cat,Dog,Fish or Bird) : ");
     string pettype = Console.ReadLine();
 
-    Console.Write("Enter Name : ");
-    string name = Console.ReadLine();
+    Console.Write("Enter Pet Name : ");
+    string pname = Console.ReadLine();
 
     Console.Write("Enter Quantity : ");
     int quantity = int.Parse(Console.ReadLine());
@@ -197,10 +211,13 @@ void buyingPet(PetContext context)
 
     var buy = new BuyingRecord
     {
+        customerName = cname,
         PetType = pettype,
-        Name = name,
+        petName = pname,
         Quantity = quantity,
         Price = price,
+        Date = DateTime.Now,
+        IsAddedToStore = false,
     };
     context.BuyingRecords.Add(buy);
     context.SaveChanges();
@@ -219,7 +236,7 @@ void storage (PetContext context)
     {
         foreach (var c in cart)
         {
-            Console.WriteLine($"ID: {c.Id}, Pet Type:{c.PetType}, Name: {c.Name}, price: {c.Price},Quantity: {c.Quantity}");
+            Console.WriteLine($"ID: {c.Id}, Pet Type:{c.PetType}, Name: {c.customerName}, price: {c.Price},Quantity: {c.Quantity}");
         }
         Console.Write("Enter ID To Action : ");
         int pid = int.Parse(Console.ReadLine());
@@ -245,11 +262,13 @@ void storage (PetContext context)
             }
             var pet = new PetDetails
             {
-                Name = selectedRecord.Name,
+                name = selectedRecord.petName,
                 Quantity = selectedRecord.Quantity,
                 Type = selectedRecord.PetType,
                 Price = price,
-                CageId = cid
+                CageId = cid,
+                IsSold = false,
+                BuyingRecord = selectedRecord,
             };
             context.petDetails.Add(pet);
             selectedRecord.IsAddedToStore = true;
@@ -271,4 +290,26 @@ void storage (PetContext context)
             Console.WriteLine("Invalid Input");
         }
     }
+}
+
+
+void sellreport (PetContext context,int sid,string buyername)
+{
+    var selectedRecord = context.petDetails.FirstOrDefault(p => p.Id == sid);
+    var buyingRecord = context.BuyingRecords.FirstOrDefault(b => b.Id == selectedRecord.BuyingRecordId);
+    var sell = new SellingRecord
+    {
+        BuyerName = buyername,
+        petname = selectedRecord.name,
+        Price = selectedRecord.Price,
+        Quantity = selectedRecord.Quantity,
+        Date = DateTime.Now,
+        PetType = selectedRecord.Type,
+        profit = selectedRecord.Price - buyingRecord.Price,
+
+    };
+    context.SellingRecords.Add(sell);
+    selectedRecord.IsSold = true;
+    context.SaveChanges();
+    Console.WriteLine("Buying SuccessFull");
 }
