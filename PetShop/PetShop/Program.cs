@@ -33,11 +33,11 @@ using (var context = new PetContext())
                 case 4:
                     feeding(context);
                     break;
-            case 5:
-                storage(context);
-                break;
-            case 6:
-                buyingPet(context);
+                case 5:
+                    storage(context);
+                    break;
+                case 6:
+                    buyingPet(context);
                 break;
 
         }
@@ -120,7 +120,7 @@ void petList(PetContext context)
     {
         foreach (var p in pet)
         {
-            Console.WriteLine($"ID: {p.Id}, Name: {p.name} , price : {p.Price}");
+            Console.WriteLine($"ID: {p.Id}, Name: {p.name}, Price: {p.Price}, Available Quantity: {p.Quantity}");
         }
         Console.Write("Enter ID To Action : ");
         int pid = int.Parse(Console.ReadLine());
@@ -296,20 +296,43 @@ void storage (PetContext context)
 void sellreport (PetContext context,int sid,string buyername)
 {
     var selectedRecord = context.petDetails.FirstOrDefault(p => p.Id == sid);
+    if (selectedRecord == null || selectedRecord.IsSold)
+    {
+        Console.WriteLine("Invalid or already sold pet.");
+        return;
+    }
+    Console.Write($"Available Quantity: {selectedRecord.Quantity}, How many do you want to buy? ");
+    int qtyToBuy = int.Parse(Console.ReadLine());
+    if (qtyToBuy <= 0 || qtyToBuy > selectedRecord.Quantity)
+    {
+        Console.WriteLine("Invalid quantity.");
+        return;
+    }
     var buyingRecord = context.BuyingRecords.FirstOrDefault(b => b.Id == selectedRecord.BuyingRecordId);
+    if (buyingRecord == null)
+    {
+        Console.WriteLine("Buying record not found.");
+        return;
+    }
+    decimal profitPerUnit = selectedRecord.Price - (buyingRecord.Price / buyingRecord.Quantity);
+    decimal totalProfit = profitPerUnit * qtyToBuy;
     var sell = new SellingRecord
     {
         BuyerName = buyername,
         petname = selectedRecord.name,
         Price = selectedRecord.Price,
-        Quantity = selectedRecord.Quantity,
+        Quantity = qtyToBuy,
         Date = DateTime.Now,
         PetType = selectedRecord.Type,
-        profit = selectedRecord.Price - buyingRecord.Price,
+        profit = totalProfit,
 
     };
     context.SellingRecords.Add(sell);
-    selectedRecord.IsSold = true;
+    selectedRecord.Quantity -= qtyToBuy;
+    if (selectedRecord.Quantity == 0)
+    {
+        selectedRecord.IsSold = true;
+    }
     context.SaveChanges();
-    Console.WriteLine("Buying SuccessFull");
+    Console.WriteLine("Buying SuccessFul");
 }

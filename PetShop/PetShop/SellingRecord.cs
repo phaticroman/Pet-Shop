@@ -9,7 +9,7 @@ namespace PetShop
    public class SellingRecord
     {
         public int Id { get; set; }
-        public string petname { get; set; }
+        public string? petname { get; set; }
         public string BuyerName { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }

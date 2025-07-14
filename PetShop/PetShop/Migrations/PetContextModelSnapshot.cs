@@ -51,7 +51,6 @@ namespace PetShop.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("petName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -135,7 +134,6 @@ namespace PetShop.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -173,7 +171,6 @@ namespace PetShop.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("petname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("profit")
