@@ -160,6 +160,9 @@ namespace PetShop.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("PetDetailsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PetType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -177,6 +180,8 @@ namespace PetShop.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PetDetailsId");
 
                     b.ToTable("SellingRecords");
                 });
@@ -209,6 +214,15 @@ namespace PetShop.Migrations
                     b.Navigation("BuyingRecord");
 
                     b.Navigation("Cage");
+                });
+
+            modelBuilder.Entity("PetShop.SellingRecord", b =>
+                {
+                    b.HasOne("PetShop.PetDetails", "PetDetails")
+                        .WithMany()
+                        .HasForeignKey("PetDetailsId");
+
+                    b.Navigation("PetDetails");
                 });
 
             modelBuilder.Entity("PetShop.Cage", b =>

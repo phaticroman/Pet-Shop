@@ -37,7 +37,10 @@ using (var context = new PetContext())
                     storage(context);
                     break;
                 case 6:
-                    buyingPet(context);
+                    buyingFromCustomer(context);
+                break;
+                case 3:
+                    sealsReport(context);
                 break;
 
         }
@@ -130,7 +133,7 @@ void petList(PetContext context)
         {
             Console.Write("Enter Your Name : ");
             string buyername = Console.ReadLine();
-            sellreport(context, pid, buyername);
+            sellPet(context, pid, buyername);
         }
         else
         {
@@ -192,7 +195,7 @@ void feeding(PetContext context)
     Console.WriteLine("Feeding Successfull");
 }
 
-void buyingPet(PetContext context)
+void buyingFromCustomer(PetContext context)
 {
     Console.Write("Enter Your Name : ");
     string cname = Console.ReadLine();
@@ -200,7 +203,7 @@ void buyingPet(PetContext context)
     Console.Write("Pet Type(Cat,Dog,Fish or Bird) : ");
     string pettype = Console.ReadLine();
 
-    Console.Write("Enter Pet Name : ");
+    Console.Write("Enter Breed Name : ");
     string pname = Console.ReadLine();
 
     Console.Write("Enter Quantity : ");
@@ -247,9 +250,9 @@ void storage (PetContext context)
             Console.Write("Enter Selling Price : ");
             decimal price = decimal.Parse(Console.ReadLine());
 
-            foreach (var cage in cagelist)
+            foreach (var c in cagelist)
             {
-                Console.WriteLine($"ID: {cage.Id}, Name: {cage.Name}");
+                Console.WriteLine($"ID: {c.Id}, Name: {c.Name}");
             }
             Console.WriteLine("Enter Cage Id To Caged The Pet : ");
             int cid = int.Parse(Console.ReadLine());
@@ -271,6 +274,13 @@ void storage (PetContext context)
                 BuyingRecord = selectedRecord,
             };
             context.petDetails.Add(pet);
+            var cage = context.cages.FirstOrDefault(c => c.Id == cid);
+            if (cage.Capacity < selectedRecord.Quantity)
+            {
+                Console.WriteLine("Not enough cage capacity.");
+                return;
+            }
+            cage.Capacity -= selectedRecord.Quantity;
             selectedRecord.IsAddedToStore = true;
             context.SaveChanges();
             Console.WriteLine("Pet Add To Store");
@@ -293,7 +303,7 @@ void storage (PetContext context)
 }
 
 
-void sellreport (PetContext context,int sid,string buyername)
+void sellPet (PetContext context,int sid,string buyername)
 {
     var selectedRecord = context.petDetails.FirstOrDefault(p => p.Id == sid);
     if (selectedRecord == null || selectedRecord.IsSold)
@@ -332,7 +342,35 @@ void sellreport (PetContext context,int sid,string buyername)
     if (selectedRecord.Quantity == 0)
     {
         selectedRecord.IsSold = true;
+        var cage = context.cages.FirstOrDefault(c => c.Id == selectedRecord.CageId);
+        if (cage != null)
+        {
+            cage.Capacity += qtyToBuy;
+        }
     }
     context.SaveChanges();
     Console.WriteLine("Buying SuccessFul");
+}
+
+void sealsReport(PetContext context)
+{
+    Console.WriteLine("Sales Report Last 7 Days");
+    var sevenDaysAgo = DateTime.Now.AddDays(-7);
+    var recentSales = context.SellingRecords.Where(s => s.Date >= sevenDaysAgo).OrderByDescending(s => s.Date).ToList();
+    if (!recentSales.Any())
+    {
+        Console.WriteLine("No sales in the last 7 days.");
+        return;
+    }
+
+    foreach (var sale in recentSales)
+    {
+        Console.WriteLine($"Date       : {sale.Date}");
+        Console.WriteLine($"Pet Name   : {sale.petname}");
+        Console.WriteLine($"Type       : {sale.PetType}");
+        Console.WriteLine($"Buyer Name : {sale.BuyerName}");
+        Console.WriteLine($"Quantity   : {sale.Quantity}");
+        Console.WriteLine($"Sell Price : {sale.Price} per unit");
+        Console.WriteLine($"Total Profit: {sale.profit}");
+    }
 }
