@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetShop;
 
@@ -11,9 +12,11 @@ using PetShop;
 namespace PetShop.Migrations
 {
     [DbContext(typeof(PetContext))]
-    partial class PetContextModelSnapshot : ModelSnapshot
+    [Migration("20250714144539_AdduserTable")]
+    partial class AdduserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,6 +163,9 @@ namespace PetShop.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("PetDetailsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PetType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -177,6 +183,8 @@ namespace PetShop.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PetDetailsId");
 
                     b.ToTable("SellingRecords");
                 });
@@ -230,6 +238,15 @@ namespace PetShop.Migrations
                     b.Navigation("BuyingRecord");
 
                     b.Navigation("Cage");
+                });
+
+            modelBuilder.Entity("PetShop.SellingRecord", b =>
+                {
+                    b.HasOne("PetShop.PetDetails", "PetDetails")
+                        .WithMany()
+                        .HasForeignKey("PetDetailsId");
+
+                    b.Navigation("PetDetails");
                 });
 
             modelBuilder.Entity("PetShop.Cage", b =>

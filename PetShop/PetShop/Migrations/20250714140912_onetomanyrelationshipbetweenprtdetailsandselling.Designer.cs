@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetShop;
 
@@ -11,9 +12,11 @@ using PetShop;
 namespace PetShop.Migrations
 {
     [DbContext(typeof(PetContext))]
-    partial class PetContextModelSnapshot : ModelSnapshot
+    [Migration("20250714140912_onetomanyrelationshipbetweenprtdetailsandselling")]
+    partial class onetomanyrelationshipbetweenprtdetailsandselling
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,6 +163,9 @@ namespace PetShop.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("PetDetailsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PetType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -178,28 +184,9 @@ namespace PetShop.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PetDetailsId");
+
                     b.ToTable("SellingRecords");
-                });
-
-            modelBuilder.Entity("PetShop.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("PetShop.FeedSchedule", b =>
@@ -230,6 +217,15 @@ namespace PetShop.Migrations
                     b.Navigation("BuyingRecord");
 
                     b.Navigation("Cage");
+                });
+
+            modelBuilder.Entity("PetShop.SellingRecord", b =>
+                {
+                    b.HasOne("PetShop.PetDetails", "PetDetails")
+                        .WithMany()
+                        .HasForeignKey("PetDetailsId");
+
+                    b.Navigation("PetDetails");
                 });
 
             modelBuilder.Entity("PetShop.Cage", b =>

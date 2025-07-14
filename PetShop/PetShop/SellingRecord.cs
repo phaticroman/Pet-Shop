@@ -16,7 +16,6 @@ namespace PetShop
         public DateTime Date { get; set; }
         public string PetType { get; set; }
         public decimal profit { get; set; }
-        public int? PetDetailsId { get; set; }
-        public PetDetails PetDetails { get; set; }
+        
     }
 }
