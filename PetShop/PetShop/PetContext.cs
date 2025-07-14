@@ -15,6 +15,7 @@ namespace PetShop
         public DbSet<FeedSchedule> FeedSchedules { get; set; }
         public DbSet<BuyingRecord> BuyingRecords { get; set; }
         public DbSet<SellingRecord> SellingRecords { get; set; }
+        public DbSet<User> users { get; set; }
         public int Id { get; set; }
         public string ConnectionString { get; }
         public PetContext ()

@@ -186,6 +186,27 @@ namespace PetShop.Migrations
                     b.ToTable("SellingRecords");
                 });
 
+            modelBuilder.Entity("PetShop.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("users");
+                });
+
             modelBuilder.Entity("PetShop.FeedSchedule", b =>
                 {
                     b.HasOne("PetShop.Cage", "Cage")

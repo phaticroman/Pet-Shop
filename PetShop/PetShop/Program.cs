@@ -8,18 +8,57 @@ using System.Security.Cryptography;
 
 using (var context = new PetContext())
 {
+        User currentUser;
+        if (!context.users.Any(u => u.Role == "Owner"))
+        {
+            Console.Write("Enter your name to register as Owner: ");
+            string ownerName = Console.ReadLine();
+            var owner = new User
+            {
+                Name = ownerName,
+                Role = "Owner"
+            };
+            context.users.Add(owner);
+            context.SaveChanges();
+            Console.WriteLine($"Owner account created: {ownerName}\n");
+        }
+        Console.Write("Enter your name to log in: ");
+        string loginName = Console.ReadLine();
+        currentUser = context.users.FirstOrDefault(u => u.Name == loginName);
+        if (currentUser == null)
+        {
+            currentUser = new User
+            {
+                Name = loginName,
+                Role = "Customer"
+            };
+            context.users.Add(currentUser);
+            context.SaveChanges();
+            Console.WriteLine($"You are registered as a Customer.\n");
+        }
+    bool reminder = currentUser.Role == "Owner";
     while (true)
     {
-        Console.WriteLine("1.See Pet List");
-        Console.WriteLine("2.Add A Pet");
-        Console.WriteLine("3.See Sales Report");
-        Console.WriteLine("4.Feed Pet");
-        Console.WriteLine("5.See Inventory");
-        Console.WriteLine("6.Sell Pet");
-        Console.WriteLine("7.Add New Cage");
-        int input = int.Parse(Console.ReadLine());
+        if (reminder)
+        {
+            Console.WriteLine("1.See Pet List");
+            Console.WriteLine("2.Add A Pet");
+            Console.WriteLine("3.See Sales Report");
+            Console.WriteLine("4.Feed Pet");
+            Console.WriteLine("5.See Inventory");
+            Console.WriteLine("7.Add New Cage");
+        }
+        else
+        {
+            Console.WriteLine("1.See Pet List");
+            Console.WriteLine("6.Sell Pet");
 
-        switch (input)
+        }
+        Console.Write("Select an option: ");
+        int input = int.Parse(Console.ReadLine());
+        if (reminder)
+        {
+            switch (input)
             {
                 case 1:
                     petList(context);
@@ -36,49 +75,37 @@ using (var context = new PetContext())
                 case 5:
                     storage(context);
                     break;
-                case 6:
-                    buyingFromCustomer(context);
-                break;
+                
                 case 3:
                     sealsReport(context);
-                break;
+                    break;
+                default:
+                    Console.WriteLine("Invalid option.");
+                    break;
 
+            }
+        }
+        else
+        {
+            switch (input)
+            {
+                case 6:
+                    CustomerSellPet(context);
+                    break;
+                case 1:
+                    petList(context);
+                    break;
+                default:
+                    Console.WriteLine("Invalid option.");
+                    break;
+            }
         }
 
     }
 }
 void addPet(PetContext context)
 {
-    Console.Write("Enter Pet Name:");
-    string name = Console.ReadLine();
-
-    Console.Write("Pet Type(Cat,Dog,Fish,Bird) : ");
-    string type = Console.ReadLine();
-
-    Console.Write("Price : ");
-    decimal price = decimal.Parse(Console.ReadLine());
-
-    Console.Write("Quantity : ");
-    int quantity = int.Parse(Console.ReadLine());
-
-    var cagelist = context.cages.ToList();
-
-    foreach (var c in cagelist)
-    {
-        Console.WriteLine($"{c.Id}:{c.Name}");
-    }
-    Console.WriteLine("Enter Cage Id To Caged The Pet : ");
-    int cid = int.Parse(Console.ReadLine());
-    var pet = new PetDetails
-    {
-        Type = type,
-        Quantity = quantity,
-        CageId = cid,
-        Price = price,
-    };
-    context.petDetails.Add(pet);
-    context.SaveChanges();
-    Console.WriteLine("Pet Added To Store SuccessFully");
+    storage(context);
 }
 
 
@@ -195,7 +222,7 @@ void feeding(PetContext context)
     Console.WriteLine("Feeding Successfull");
 }
 
-void buyingFromCustomer(PetContext context)
+void CustomerSellPet(PetContext context)
 {
     Console.Write("Enter Your Name : ");
     string cname = Console.ReadLine();
@@ -372,5 +399,7 @@ void sealsReport(PetContext context)
         Console.WriteLine($"Quantity   : {sale.Quantity}");
         Console.WriteLine($"Sell Price : {sale.Price} per unit");
         Console.WriteLine($"Total Profit: {sale.profit}");
+        Console.WriteLine("----------------------------------");
+
     }
 }
