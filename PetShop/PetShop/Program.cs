@@ -75,7 +75,7 @@ using (var context = new PetContext())
                     feeding(context);
                     break;
                 case 5:
-                    storage(context);
+                    Inventory(context);
                     break;
                 
                 case 3:
@@ -111,7 +111,7 @@ using (var context = new PetContext())
 }
 void addPet(PetContext context)
 {
-    storage(context);
+    Inventory(context);
 }
 
 
@@ -141,12 +141,14 @@ void petList(PetContext context, User currentUser)
     }
     else
     {
+        Console.WriteLine($"-------------------------------------------\n");
         Console.WriteLine("Invalid Input");
         Console.WriteLine($"-------------------------------------------\n");
     }
     if (pet.Count()==0)
     {
-        Console.WriteLine("No Pet Remains");
+        Console.WriteLine($"-------------------------------------------\n");
+        Console.WriteLine("No Pet Remains Check Inventory To Buy and Add To Store");
         Console.WriteLine($"-------------------------------------------\n");
     }
     else
@@ -168,6 +170,37 @@ void petList(PetContext context, User currentUser)
                 Console.Write("Enter Your Name : ");
                 string buyername = Console.ReadLine();
                 sellPet(context, pid, buyername);
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            Console.Write("Enter ID To Action : ");
+            int temp = int.Parse(Console.ReadLine());
+            var petid = context.petDetails.FirstOrDefault(p => p.Id == temp);
+            Console.WriteLine("1.Update Price     2.Remove");
+            int action = int.Parse(Console.ReadLine());
+            if (action == 1)
+            {
+                Console.Write("Enter New Price : ");
+                decimal money = decimal.Parse(Console.ReadLine());
+                petid.Price = money;
+                context.SaveChanges();
+                Console.WriteLine("Price is Updated");
+                Console.WriteLine($"-------------------------------------------\n");
+            }
+            else if (action==2)
+            {
+                if (petid!=null)
+                {
+                    context.petDetails.Remove(petid);
+                    context.SaveChanges();
+                    Console.WriteLine("Pet deleted successfully.");
+                }
+                
             }
             else
             {
@@ -268,7 +301,7 @@ void CustomerSellPet(PetContext context)
     Console.WriteLine($"-------------------------------------------\n");
 
 }
-void storage (PetContext context)
+void Inventory(PetContext context)
 {
     var cart = context.BuyingRecords.Where(b => !b.IsAddedToStore).ToList();
     var cagelist = context.cages.ToList();
@@ -288,11 +321,12 @@ void storage (PetContext context)
         }
         Console.Write("Enter ID To Action : ");
         int pid = int.Parse(Console.ReadLine());
+        var petid = context.BuyingRecords.FirstOrDefault(b => b.Id==pid);
         Console.WriteLine("Do You Want To Buy it For Your Store? : 1.Yes     2.No");
         int action = int.Parse(Console.ReadLine());
         if(action==1)
         {
-            Console.Write("Enter Selling Price : ");
+            Console.Write($"Set Selling Price higher Than {petid.Price} To Make Profit : ");
             decimal price = decimal.Parse(Console.ReadLine());
 
             foreach (var c in cagelist)
