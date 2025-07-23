@@ -1,10 +1,12 @@
-﻿using PetShop;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using Azure;
 using System.Security.Cryptography;
+using PetShop.Models;
+using PetShop.Data;
+using PetShop.Services;
 
 using (var context = new PetContext())
 {
